@@ -1,55 +1,80 @@
-# 🚀 Marketing Agency: Client Retainer & Payment Automation
+# ⚓ The Brand Anchor: AI-Driven Engagement Suite
 
-An automated workflow built in **n8n** that manages the end-to-end billing lifecycle for marketing agency retainers. It monitors a Google Sheet database, generates PayPal invoices, sends professional Gmail notifications, and updates payment tracking in real-time.
+**The Brand Anchor** is a high-impact automation ecosystem designed to build authority and maintain a daily connection with your audience. By combining the "thinking" power of **Gemini 1.5 Flash** with the "orchestration" of **n8n**, this system delivers hyper-personalized daily insights while tracking exactly where your growth is coming from via Source Tracking.
+
+It transforms a passive spreadsheet into a proactive brand ambassador that handles everything from first impressions to legal compliance and performance analytics.
 
 ---
 
 ## 📋 Overview
-Managing monthly retainers manually is prone to error and late payments. This automation ensures:
-- **Proactive Billing:** Invoices are generated exactly 7 days before the due date.
-- **Data Integrity:** Syncs PayPal Invoice IDs back to Google Sheets for easy tracking.
-- **Professionalism:** Sends branded HTML emails to clients with direct payment links.
-- **Zero Duplicates:** Built-in logic to prevent sending multiple invoices for the same period.
+
+The Brand Anchor eliminates generic mass-mailing and replaces it with high-frequency, high-value personal connections. It serves as a persistent, positive brand presence that builds trust and authority on autopilot.
+
+* **Hyper-Personalization**: Uses AI to generate unique content for every single subscriber based on their name and niche.
+* **Omnichannel Logic**: Centralizes data in Google Sheets while distributing via branded HTML emails.
+* **Compliance First**: Includes a dedicated "Listener" loop for instant, one-click unsubscribes.
+* **Growth Intelligence**: Automatically tracks and reports on sign-up sources (e.g., LinkedIn, Instagram).
 
 ---
 
 ## 🚀 Workflow Architecture
-1.  **Trigger:** Daily check at 9:00 AM.
-2.  **Fetch:** Pulls all client data from the "Retainers" Google Sheet.
-3.  **Filter:** Checks if `Due Date` is in 7 days AND `Invoice Status` is "Pending".
-4.  **Action:** Generates a PayPal Invoice and extracts the hosted payment URL.
-5.  **Notify:** Sends a customized Gmail to the client with the payment button.
-6.  **Update:** Writes the PayPal ID and Link back to the Sheet and marks it as "Sent".
+
+The ecosystem consists of four specialized "Loops" that share a single **Google Sheet** database:
+
+1. **The Welcome Loop (Instant)**
+   * **Trigger**: A new row is added to the Google Sheet.
+   * **Action**: Greets the user instantly, acknowledges their specific sign-up source, and sets expectations for daily anchors.
+
+2. **The Delivery Loop (Daily 9 AM)**
+   * **Trigger**: A time-based schedule "wakes" the workflow.
+   * **Intelligence**: Reads "Pending" subscribers and passes data to Gemini AI.
+   * **Dispatch**: Sends a branded HTML email and updates status to "Sent".
+
+3. **The Compliance Loop (Instant)**
+   * **Trigger**: A user clicks "Unsubscribe" in an email footer.
+   * **Action**: A Webhook instantly updates the database to "Unsubscribed".
+
+4. **The Analytics Loop (Weekly Friday 5 PM)**
+   * **Trigger**: A Friday afternoon schedule.
+   * **Action**: Aggregates "Sent" data and delivers a performance summary to the administrator.
+
+---
 
 ## 🛠️ Tech Stack
-- **Automation:** [n8n.io]
-- **Database:** Google Sheets
-- **Payments:** PayPal REST API
-- **Communication:** Gmail API
-- **Logic:** JavaScript / Luxon
+
+* **Automation**: [n8n](https://n8n.io/) (Self-hosted or Cloud)
+* **LLM**: [Google Gemini 1.5 Flash](https://aistudio.google.com/)
+* **Database**: [Google Sheets](https://www.google.com/sheets/about/)
+* **Communication**: SMTP / Email Node
 
 ---
 
 ## ⚙️ Installation & Setup
 
-### 1. Google Sheets Preparation
-Create a sheet named `Retainers` with the following headers:
-`Client Name`, `Email`, `Amount`, `Currency`, `Due Date`, `Invoice Status`, `PayPal ID`, `PayPal Link`, `Sent Date`.
+### Phase 1: The Database
+1. Create a Google Sheet named `The Brand Anchor Database`.
+2. Add these headers to Row 1: `Email`, `First Name`, `Status`, `Source`, and `Last Sent`.
 
-### 2. PayPal Developer Setup
-- Go to the [PayPal Developer Portal](https://developer.paypal.com/).
-- Create an App to get your **Client ID** and **Secret**.
-- *Note:* Use Sandbox mode first for testing.
+### Phase 2: The Compliance Loop
+1. Import the **Unsubscribe Webhook** JSON into a new n8n workflow.
+2. Copy the **Production Webhook URL** from the Webhook node.
+3. Toggle the workflow to **Active**.
 
-### 3. n8n Configuration
-1.  **Import Workflow:** Copy the JSON from this repository and import it into your n8n instance.
-2.  **Credentials:** - Connect your **Google Cloud Console** (OAuth2) for Sheets and Gmail.
-    - Connect your **PayPal** account using the Client ID and Secret.
-3.  **Environment Variables:** Update the `Sheet ID` in the Google Sheets nodes to match your specific spreadsheet URL.
+### Phase 3: The Welcome Loop
+1. Import the **Welcome Greeter** JSON into a new n8n workflow.
+2. Point the trigger to your Google Sheet and set the event to `Row Added`.
+3. Toggle the workflow to **Active**.
 
-### 4. Deployment
-- Set the workflow to **Active**.
-- Ensure your n8n instance is running (local, Docker, or Cloud).
+### Phase 4: The Delivery Loop
+1. Import the **Daily Delivery** JSON into a new n8n workflow.
+2. Configure the Google Sheets node: `Resource: Row` | `Operation: Get Many` | `Filter: Status = Pending`.
+3. Paste your HTML email template and update the unsubscribe link with the URL from Phase 2.
+4. Toggle the workflow to **Active**.
+
+### Phase 5: The Analytics Loop
+1. Import the **Weekly Performance Report** JSON into a new n8n workflow.
+2. Point the data source to your database and set the recipient email.
+3. Toggle the workflow to **Active**.
 
 ---
 
